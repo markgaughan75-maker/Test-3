@@ -1,6 +1,61 @@
+import { useState } from "react";
 import "../styles/pricing.scss";
 
 export default function Pricing() {
+  const [billing, setBilling] = useState("monthly"); // monthly | yearly
+
+  // Plans data
+  const plans = [
+    {
+      name: "Free",
+      monthly: 0,
+      yearly: 0,
+      credits: "5 credits / month",
+      features: ["Access to all 3 features", "Email support"],
+      cta: "Start Free",
+      highlight: false,
+    },
+    {
+      name: "Starter",
+      monthly: 20,
+      yearly: 17,
+      credits: "50 credits / month",
+      features: [
+        "Low / Medium / High quality",
+        "x2 / x4 upscaling",
+        "Standard support",
+      ],
+      cta: "Choose Plan",
+      highlight: false,
+    },
+    {
+      name: "Studio",
+      monthly: 35,
+      yearly: 30,
+      credits: "200 credits / month",
+      features: [
+        "Priority queue speed",
+        "Batch uploads (up to 10)",
+        "Priority support",
+      ],
+      cta: "Choose Plan",
+      highlight: true,
+    },
+    {
+      name: "Pro",
+      monthly: 60,
+      yearly: 51,
+      credits: "600 credits / month",
+      features: [
+        "Fastest queue speed",
+        "Team seats (up to 5)",
+        "SLA support",
+      ],
+      cta: "Choose Plan",
+      highlight: false,
+    },
+  ];
+
   return (
     <div className="pricing-page">
       <h1>Simple, flexible pricing</h1>
@@ -8,60 +63,56 @@ export default function Pricing() {
         Use credits across all features. Upgrade, downgrade, or cancel any time.
       </p>
 
-      {/* Toggle buttons */}
+      {/* Toggle */}
       <div className="toggle">
-        <button className="active">Monthly</button>
-        <button>Yearly -15%</button>
+        <button
+          className={billing === "monthly" ? "active" : ""}
+          onClick={() => setBilling("monthly")}
+        >
+          Monthly
+        </button>
+        <button
+          className={billing === "yearly" ? "active" : ""}
+          onClick={() => setBilling("yearly")}
+        >
+          Yearly -15%
+        </button>
       </div>
 
       {/* Plans */}
       <div className="plans">
-        <div className="plan-card">
-          <h2>Free</h2>
-          <p className="price">€0/mo</p>
-          <ul>
-            <li>5 credits / month</li>
-            <li>Access to all 3 features</li>
-            <li>Email support</li>
-          </ul>
-          <a href="#" className="btn secondary">Start Free</a>
-        </div>
-
-        <div className="plan-card">
-          <h2>Starter</h2>
-          <p className="price">€20/mo</p>
-          <ul>
-            <li>50 credits / month</li>
-            <li>Standard support</li>
-            <li>x2 / x4 upscaling</li>
-          </ul>
-          <a href="#" className="btn secondary">Choose Plan</a>
-        </div>
-
-        <div className="plan-card">
-          <h2>Studio <span style={{color: "#4f46e5"}}>(Most Popular)</span></h2>
-          <p className="price">€35/mo</p>
-          <ul>
-            <li>200 credits / month</li>
-            <li>Batch uploads (up to 10)</li>
-            <li>Priority support</li>
-          </ul>
-          <a href="#" className="btn primary">Choose Plan</a>
-        </div>
-
-        <div className="plan-card">
-          <h2>Pro</h2>
-          <p className="price">€60/mo</p>
-          <ul>
-            <li>600 credits / month</li>
-            <li>Team seats (up to 5)</li>
-            <li>SLA support</li>
-          </ul>
-          <a href="#" className="btn secondary">Choose Plan</a>
-        </div>
+        {plans.map((plan, i) => (
+          <div
+            key={i}
+            className={`plan-card ${plan.highlight ? "highlight" : ""}`}
+          >
+            <h2>
+              {plan.name}{" "}
+              {plan.highlight && (
+                <span style={{ color: "#4f46e5" }}>(Most Popular)</span>
+              )}
+            </h2>
+            <p className="price">
+              €{billing === "monthly" ? plan.monthly : plan.yearly}
+              <span>/mo</span>
+            </p>
+            <p>{plan.credits}</p>
+            <ul>
+              {plan.features.map((f, idx) => (
+                <li key={idx}>{f}</li>
+              ))}
+            </ul>
+            <a
+              href="#"
+              className={`btn ${plan.highlight ? "primary" : "secondary"}`}
+            >
+              {plan.cta}
+            </a>
+          </div>
+        ))}
       </div>
 
-      {/* Compare table */}
+      {/* Compare Table */}
       <div className="compare-table">
         <h2>Compare plans</h2>
         <table>
@@ -82,6 +133,18 @@ export default function Pricing() {
             <tr>
               <td>Virtual Staging</td>
               <td>✔</td><td>✔</td><td>✔</td><td>✔</td>
+            </tr>
+            <tr>
+              <td>Design Options (AI prompt)</td>
+              <td>✔</td><td>✔</td><td>✔</td><td>✔</td>
+            </tr>
+            <tr>
+              <td>x2 / x4 Upscaling</td>
+              <td>✔</td><td>✔</td><td>✔</td><td>✔</td>
+            </tr>
+            <tr>
+              <td>Priority queue speed</td>
+              <td>—</td><td>—</td><td>✔</td><td>✔</td>
             </tr>
             <tr>
               <td>Batch uploads</td>
