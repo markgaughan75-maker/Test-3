@@ -1,185 +1,170 @@
-import React, { useState } from "react";
+.pricing-page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 4rem 2rem;
+  text-align: center;
 
-export default function Pricing() {
-  const [period, setPeriod] = useState("monthly");
+  h1 {
+    font-size: 2.75rem;
+    font-weight: 800;
+    margin-bottom: 0.5rem;
+    color: #111827;
+  }
 
-  const yearlyDiscount = 0.85; // 15% off yearly
+  p.subhead {
+    font-size: 1.125rem;
+    color: #6b7280;
+    margin-bottom: 2.5rem;
+  }
 
-  const plans = [
-    {
-      name: "Free",
-      price: 0,
-      credits: 5,
-      features: [
-        "5 credits to try",
-        "Access to all 3 features",
-        "Before/After viewer",
-        "Email support",
-      ],
-      href: "/checkout?plan=free",
-      button: "Start Free",
-      highlight: false,
-    },
-    {
-      name: "Starter",
-      price: 20,
-      credits: 50,
-      features: [
-        "50 credits / mo",
-        "Low / Medium / High quality",
-        "x2 / x4 upscaling",
-        "Standard support",
-      ],
-      href: "/checkout?plan=starter",
-      button: "Choose Plan",
-      highlight: false,
-    },
-    {
-      name: "Studio",
-      price: 35,
-      credits: 200,
-      features: [
-        "200 credits / mo",
-        "Priority queue speed",
-        "Batch uploads (up to 10)",
-        "Priority support",
-      ],
-      href: "/checkout?plan=studio",
-      button: "Choose Plan",
-      highlight: true,
-    },
-    {
-      name: "Pro",
-      price: 60,
-      credits: 600,
-      features: [
-        "600 credits / mo",
-        "Fastest queue speed",
-        "Team seats (up to 5)",
-        "SLA support",
-      ],
-      href: "/checkout?plan=pro",
-      button: "Choose Plan",
-      highlight: false,
-    },
-  ];
+  /* Toggle buttons (Monthly / Yearly) */
+  .toggle {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
 
-  const comparison = [
-    { feature: "Render Enhancement", plans: [true, true, true, true] },
-    { feature: "Virtual Staging", plans: [true, true, true, true] },
-    { feature: "Design Options (AI prompt)", plans: [true, true, true, true] },
-    { feature: "x2 / x4 Upscaling", plans: [true, true, true, true] },
-    { feature: "Priority queue speed", plans: [false, false, true, true] },
-    { feature: "Batch uploads", plans: [false, false, true, true] },
-    { feature: "Team seats", plans: [false, false, false, true] },
-    { feature: "SLA support", plans: [false, false, false, true] },
-  ];
+    button {
+      background: #f3f4f6;
+      border: none;
+      padding: 0.5rem 1.25rem;
+      border-radius: 9999px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
 
-  return (
-    <main className="pricing-page container">
-      {/* Heading */}
-      <section className="text-center py-16">
-        <h1 className="text-4xl font-bold mb-4">Simple, flexible pricing</h1>
-        <p className="text-lg text-gray-600">
-          Use credits across all features. Upgrade, downgrade, or cancel any
-          time.
-        </p>
+      &.active {
+        background: #4f46e5;
+        color: white;
+      }
+    }
+  }
 
-        {/* Toggle Monthly / Yearly */}
-        <div className="toggle mt-6 flex justify-center gap-4">
-          <button
-            onClick={() => setPeriod("monthly")}
-            className={`px-4 py-2 rounded ${
-              period === "monthly" ? "bg-indigo-600 text-white" : "bg-gray-200"
-            }`}
-          >
-            Monthly
-          </button>
-          <button
-            onClick={() => setPeriod("yearly")}
-            className={`px-4 py-2 rounded ${
-              period === "yearly" ? "bg-indigo-600 text-white" : "bg-gray-200"
-            }`}
-          >
-            Yearly <span className="ml-1 text-green-500">–15%</span>
-          </button>
-        </div>
-        <p className="mt-2 text-sm text-gray-500">Billed {period}</p>
-      </section>
+  /* Plan cards container */
+  .plans {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 2rem;
+    margin-bottom: 4rem;
+  }
 
-      {/* Plans */}
-      <section className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-16">
-        {plans.map((plan, idx) => (
-          <div
-            key={idx}
-            className={`plan-card p-6 rounded-xl shadow-lg border ${
-              plan.highlight ? "border-indigo-500 ring-2 ring-indigo-200" : ""
-            }`}
-          >
-            <h2 className="text-xl font-bold mb-2">{plan.name}</h2>
-            <p className="text-2xl font-bold mb-4">
-              {plan.price === 0 ? (
-                "€0"
-              ) : (
-                <>
-                  €
-                  {period === "monthly"
-                    ? plan.price
-                    : Math.round(plan.price * yearlyDiscount)}
-                  <span className="text-base font-normal">
-                    /{period === "monthly" ? "mo" : "mo (yearly)"}
-                  </span>
-                </>
-              )}
-            </p>
-            <ul className="mb-6 text-sm text-gray-700">
-              {plan.features.map((f, i) => (
-                <li key={i} className="mb-2">
-                  ✔ {f}
-                </li>
-              ))}
-            </ul>
-            <a
-              href={`${plan.href}&period=${period}`}
-              className={`w-full block text-center py-2 rounded ${
-                plan.highlight
-                  ? "bg-indigo-600 text-white"
-                  : "bg-gray-900 text-white"
-              }`}
-            >
-              {plan.button}
-            </a>
-          </div>
-        ))}
-      </section>
+  /* Each card */
+  .plan-card {
+    background: #fff;
+    border-radius: 1rem;
+    border: 1px solid #e5e7eb;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: all 0.3s ease;
 
-      {/* Compare Table */}
-      <section className="compare-table bg-gray-50 rounded-xl p-8">
-        <h2 className="text-2xl font-bold mb-6">Compare plans</h2>
-        <table className="w-full text-left">
-          <thead>
-            <tr className="border-b">
-              <th className="py-2">Feature</th>
-              <th className="py-2 text-center">Free</th>
-              <th className="py-2 text-center">Starter</th>
-              <th className="py-2 text-center">Studio</th>
-              <th className="py-2 text-center">Pro</th>
-            </tr>
-          </thead>
-          <tbody>
-            {comparison.map((row, idx) => (
-              <tr key={idx} className="border-b">
-                <td className="py-2">{row.feature}</td>
-                {row.plans.map((inc, i) => (
-                  <td key={i} className="py-2 text-center">
-                    {inc ? "✔" : "—"}
-                  </td>
-                ))}
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </section>
-    </main>
-  );
+    &:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 20px 30px rgba(0, 0, 0, 0.06);
+    }
+
+    h2 {
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    p.price {
+      font-size: 2rem;
+      font-weight: 800;
+      margin: 0.5rem 0 1rem;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 1rem 0 2rem;
+      text-align: left;
+      width: 100%;
+
+      li {
+        margin-bottom: 0.5rem;
+        font-size: 0.95rem;
+        color: #374151;
+
+        &::before {
+          content: "✔";
+          margin-right: 8px;
+          color: #10b981;
+        }
+      }
+    }
+
+    .btn {
+      display: block;
+      width: 100%;
+      text-align: center;
+      padding: 0.75rem 1rem;
+      border-radius: 0.5rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: background 0.2s;
+
+      &.primary {
+        background: #4f46e5;
+        color: white;
+
+        &:hover {
+          background: #4338ca;
+        }
+      }
+
+      &.secondary {
+        background: #111827;
+        color: white;
+
+        &:hover {
+          background: black;
+        }
+      }
+    }
+  }
+
+  /* Compare table */
+  .compare-table {
+    background: #f9fafb;
+    border-radius: 1rem;
+    padding: 2rem;
+    overflow-x: auto;
+
+    h2 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+
+      th {
+        text-align: center;
+        font-size: 0.9rem;
+        font-weight: 600;
+        color: #374151;
+        padding: 0.75rem;
+      }
+
+      td {
+        text-align: center;
+        font-size: 0.9rem;
+        padding: 0.75rem;
+        color: #111827;
+      }
+
+      tr {
+        border-bottom: 1px solid #e5e7eb;
+
+        &:last-child {
+          border-bottom: none;
+        }
+      }
+    }
+  }
 }
