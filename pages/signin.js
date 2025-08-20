@@ -1,55 +1,36 @@
-import { useState } from 'react';
-import PageLayout from '../components/PageLayout';
-import Link from 'next/link';
+import React, { useState } from "react";
 
 export default function SignIn() {
-  const [email, setEmail] = useState('');
-  const [pw, setPw] = useState('');
-  const [loading, setLoading] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
-  function onSubmit(e) {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    setLoading(true);
-    setTimeout(() => {
-      window.location.href = '/services';
-    }, 600);
-  }
+    // mock auth
+    window.location.href = "/dashboard";
+  };
 
   return (
-    <PageLayout>
-      <section className="section">
-        <div className="container" style={{ maxWidth: 560 }}>
-          <div style={{ textAlign: 'center', marginBottom: 20 }}>
-            <h1 style={{ fontSize: 34, margin: 0 }}>Welcome back</h1>
-            <p style={{ color: 'var(--muted)' }}>Sign in to access your workspace.</p>
-          </div>
+    <main className="auth-page">
+      <div className="auth-box">
+        <h1>Sign In</h1>
+        <form onSubmit={handleSubmit}>
+          <label>Email</label>
+          <input type="email" value={email} onChange={(e)=>setEmail(e.target.value)} required />
 
-          <div className="card padded">
-            <div className="grid" style={{ gap: 10 }}>
-              <button className="btn outline">Continue with Google</button>
-              <button className="btn outline">Continue with Apple</button>
-              <button className="btn outline">Continue with Microsoft</button>
-            </div>
+          <label>Password</label>
+          <input type="password" value={password} onChange={(e)=>setPassword(e.target.value)} required />
 
-            <div style={{ margin: '18px 0', height: 1, background: 'var(--border)' }} />
+          <button type="submit" className="btn">Sign In</button>
+        </form>
 
-            <form onSubmit={onSubmit} className="grid" style={{ gap: 12 }}>
-              <label className="label">Email</label>
-              <input className="input" type="email" value={email} onChange={(e)=>setEmail(e.target.value)} required placeholder="you@company.com" />
-              <label className="label">Password</label>
-              <input className="input" type="password" value={pw} onChange={(e)=>setPw(e.target.value)} required placeholder="••••••••" />
-              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 14 }}>
-                <a href="/reset" style={{ color: 'var(--muted)' }}>Forgot password?</a>
-                <span style={{ color: 'var(--muted)' }}>New here? <Link href="/register" style={{ color: 'var(--brand)' }}>Register now</Link></span>
-              </div>
-              <button className="btn primary" disabled={loading}>{loading ? 'Signing in…' : 'Sign in'}</button>
-              <p style={{ textAlign: 'center', fontSize: 12, color: 'var(--muted)' }}>
-                Want more credits? <Link href="/pricing" style={{ color: 'var(--brand)' }}>Subscribe now</Link>
-              </p>
-            </form>
-          </div>
+        <div className="auth-alt">
+          <button className="btn-outline">Continue with Google</button>
+          <button className="btn-outline">Continue with LinkedIn</button>
         </div>
-      </section>
-    </PageLayout>
+
+        <p>Don’t have an account? <a href="/register">Register Now</a></p>
+      </div>
+    </main>
   );
 }
