@@ -1,0 +1,17 @@
+{
+  "name": "lumely-site-classic",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev -p 3000",
+    "build": "next build",
+    "start": "next start",
+    "lint": "echo \"(lint step omitted in this minimal starter)\""
+  },
+  "dependencies": {
+    "lucide-react": "0.441.0",
+    "next": "13.4.7",
+    "react": "18.2.0",
+    "react-dom": "18.2.0"
+  }
+}
